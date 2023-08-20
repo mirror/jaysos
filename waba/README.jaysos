@@ -1,0 +1,103 @@
+
+JaysOS port of Waba  version 0.0.2
+ 
+Justin Armstrong <ja@badpint.org>
+19 September 2002
+------------------------------------------------
+
+
+This is the first release of Waba for JaysOS/GBA
+
+It is based on what i found in CVS on waba.sourceforge.net
+on 2002-07-30.
+
+For more information on Waba, see http://waba.sourceforge.net/
+and http://www.wabasoft.com/
+
+
+DIFFERENCES WITH ORIGINAL VERSION OF WABA
+
+* JaysOS Waba does not use the Waba's Warp archives or JAR files.
+  Instead we use a GBFS archive (see ../tools/README)
+  to collect together all the classes and images used by Waba. 
+
+  This file is called "classfiles.gbfs" and is created from the
+  contents of the waba/classfiles directory
+  During the JaysOS build process, classfiles.gbfs is cat-ed onto the
+  end of the rom image.  At run time, classes and images are loaded
+  using the functions in libgbfs.c.
+
+* The build system is completely different - i dumped all the autoconf
+  stuff and put everything into the toplevel Makefile and a few other
+  scripts. Not fancy but good enough.
+
+* Only files and directories relevant to this port are included,
+  e.g. the code for the palm and linux ports is not included.
+  You can always get this from the official distribution.
+  
+* The UI Controls (buttons, tabs, etc) don't work,
+  as they rely on having a touchscreen or mouse.
+  The class libraries could probably be modifed to
+  use the arrow keys to move between controls,
+  but there is no support in Waba for this at present.
+
+
+WHAT DOESN'T WORK
+
+Please note that this was something i wrote for fun,
+to learn more about JVMs. It is unfinished, untested and 
+NOT MEANT TO BE USEFUL!
+Java on the GBA is probably not a good idea anyway ;)
+
+- threads are not implemented yet
+- no 64 bit support (longs and doubles)
+- float->string conversion currently rounds values to ints
+- no sound support
+- no file support
+- no networking support
+- serial port classes not implemented.
+- clipping in general doesn't work properly
+- only DRAW_OVER is implemented, no support for DRAW_AND,
+  DRAW_OR or DRAW_XOR
+- The colours might be messed up
+
+
+The ImageSplit applet can stop animating after a few frames.
+This is because it is getting alarm (aka timer) messages faster 
+than it can process them, and its message queue gets full.
+Once the queue is full, messages are discarded. 
+Waba's timers are implemented with "once off" alarms - each
+time Waba gets a timer event, it reschedules another alarm.
+So if even one timer event is lost, the system grinds to a halt.
+
+JaysOS' UI Manager also provides "reoccurring" alarms,
+which would solve this problem.  The Waba class libraries
+would need to be modifed to use these instead.
+
+
+TRYING IT OUT:
+
+1. With a serial link, such as the MBV2 cable.
+
+    Waba is started from the JaysOS shell with the
+    command "waba" followed by the path to the main classfile
+    (not including the ".class")
+    try these:
+    
+        waba CoreTest/CoreTest
+        waba ImageSplit/ImageSplit
+        waba PocketWatch/PocketWatch
+        waba ImageView/ImageView
+
+    You can only have one instance of waba running at a time.
+    Waba can be stopped with the command:
+        kill waba
+
+
+2. If you don't have a serial link, you can try out the
+    individual applets by modifying the call to start_waba
+    in main.c and recompiling.
+
+
+
+

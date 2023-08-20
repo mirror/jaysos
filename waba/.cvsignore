@@ -1,0 +1,4 @@
+install-sh mkinstalldirs missing config.guess config.sub INSTALL COPYING
+configure 
+aclocal.m4
+config.log

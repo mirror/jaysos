@@ -1,0 +1,41 @@
+
+This directory contains tools for creating GBFS archive files
+and listing their contents.
+
+JaysOS uses GBFS archives to provide a way for apps to
+read files from the rom image.
+
+the program "gbfs" creates an archive file that can then
+simply be cat-ed onto the end of your rom file.
+e.g.
+
+   gbfs stuff.gbfs  photos  docs
+
+will create an archive file "stuff.gbfs" containing all the files
+in the photos and docs directories.
+
+
+"lsgbfs" lists the contents of the archive file.
+
+
+These tools and the library functions used within
+JaysOS to read them are based on code written by Damian Yerrick.
+http://pineight.evilpigeon.net/gba/
+
+I made the following modifications to Damian's 20020404 release:
+
+- the "gbfs" tool can now create archives from files in directories
+  so you can create an archive from a hierachy of files.
+  GBFS only really has one directory, so when you do this
+  the files simply get added with the directory name and seperating
+  slashes as part of their name.
+
+- max pathname is now 128 chars
+ 
+- renamed GBFS_FILE to GBFS_ARCHIVE
+
+- generally changed the way in which the archive file is created
+
+- i removed the "ungbfs" tool, because it was broken by my changes, 
+  and i was too lazy to fix it ;)
+ 

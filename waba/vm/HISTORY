@@ -1,0 +1,3 @@
+- extension of waba : console mode with the parameter -a or --as-application.
+  This mean it run main() instead of MainWindow.onStart()
+- implementation on Linux/GTK

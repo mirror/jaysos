@@ -1,0 +1,30 @@
+/* $Id: Runnable.java,v 1.2 2001/08/18 20:37:52 bornet Exp $
+
+Copyright (c) 2000 Monaka (monamour@monaka.org)  All rights reserved.
+
+This software is furnished under a license and may be used only in accordance
+with the terms of that license. This software and documentation, and its
+copyrights are owned by Monaka and are protected by copyright law.
+
+THIS SOFTWARE AND REFERENCE MATERIALS ARE PROVIDED "AS IS" WITHOUT WARRANTY
+AS TO THEIR PERFORMANCE, MERCHANTABILITY, FITNESS FOR ANY PARTICULAR PURPOSE,
+OR AGAINST INFRINGEMENT. AUTHOR ASSUMES NO RESPONSIBILITY FOR THE USE OR
+INABILITY TO USE THIS SOFTWARE. AUTHOR SHALL NOT BE LIABLE FOR INDIRECT,
+SPECIAL OR CONSEQUENTIAL DAMAGES RESULTING FROM THE USE OF THIS PRODUCT.
+
+AUTHOR SHALL HAVE NO LIABILITY OR RESPONSIBILITY FOR SOFTWARE ALTERED,
+MODIFIED, OR CONVERTED BY YOU OR A THIRD PARTY, DAMAGES RESULTING FROM
+ACCIDENT, ABUSE OR MISAPPLICATION, OR FOR PROBLEMS DUE TO THE MALFUNCTION OF
+YOUR EQUIPMENT OR SOFTWARE NOT SUPPLIED BY AUTHOR.
+*/
+
+package waba.sys;
+
+public interface Runnable
+{
+    public abstract void run();
+}
+
+
+
+

@@ -1,0 +1,47 @@
+- clean the code of nm_uclinux_b.c
+- see if it's correct to use HWR_WIDTH and HWR_HEIGHT for initialisation of
+  a Window class
+- implement WindowDestroy()
+- see if globalMainWin is necessary to have as global
+- see if we need to return the exit code in MainWinExit()
+- see if the timer value is OK
+- see if all ui_... use the same RGB bitmap (use in Image class)
+- add the load of more bitmap type, or other image format
+- look at all variable type, and use only "waba" type, not "C" type
+- use only xmalloc and xfree, not malloc and free
+- skip the limit of 50 char for a filename in ImageLoad(). The loop seem
+  wrong when we have more than 50 chars
+- implement ImageFree()
+- implement ImageDestroy()
+- implement SocketSetTimeout()
+- implement the native functions of the Sound class
+- look at the native funciton implementing the class FontMetrics to be
+  not GDK specific
+- FontMetricsLeading allways set to 0. Don't know if it's correct
+- look which global variable is needed in nm_uclinux_b.c
+- implement GraphicsDestroy()
+- implement GraphicsFree()
+- look if WOBJ_GraphicsDrawOp() is used
+- see if GraphicsGetClip() is correct (return allways 0,0-HWR_WIDTH,HWR_HEIGHT)
+- GR_COPYRECT need more look :
+    1. the parameter x and y are not used
+    2. what to do if srcSurf is a SURF_WINDOW
+    3. make the inversion if wanted
+- implement the native functions of the SoundClip class
+- implement the class Catalog to simulate the Palm Catalog
+- clean and uniformize the code of the File class
+- verify the classHooks parameters
+- test the Time class (I'm not shure millis are correct)
+- implement the native functions of the Vm class
+- merge SuperWaba
+- merge Waba Extras
+- change the separator in CLASSPATH (use : and not ;)
+- update the documentation (README_waba_10.txt)
+- add the passage of arguments to the MainWindow applications
+- permit to pass the size of the MainWindow on the command line
+- comment a lot more linux/ui_gtk.c
+- get the correct argc/argv in hwr_init() in linux/ui_gtk.c
+- see why WOBJ_GraphicsIsValid() don't work in GraphicsSetFont(), GraphicsSetDrawOp(), ... 
+- in GraphicsSetFont() implement the deletion of the old font
+- see if the Clip is right for Image classes
+- see if it's OK to make ...helvetica... default font

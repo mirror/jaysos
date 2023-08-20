@@ -1,0 +1,810 @@
+2001-11-14  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Remove the limitation on the timer, because PicoGUI has now corrected
+	the related bug.
+
+2001-11-13  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Fixed bug in PocketBee's implementation of Registry, replacing "." with "_"
+	in BIOS variable names
+
+2001-11-12  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/Makefile.am:
+	remove the -lz waba_LDADD, as it is allready in JAR_LDFLAGS (thanks Chyrag)
+
+	* /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c:
+	Implement the use of the PocketBee resources manager (--with-rm of the
+	configure process)
+
+2001-11-08  chyrag  <chyrag@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/configure.in:
+	Updated configure.in; please bear with a newbie at autoconf.
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Minor glitch in the nativeLoadClass corrected.
+
+2001-11-07  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.h:
+	Remove the definition of timeout_event(). This was a mistake. Sorry.
+
+2001-11-07  chyrag  <chyrag@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/waba_classes/Makefile.am:
+	Added an AM_CONDITIONAL for JAR
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/waba_classes/Makefile.am:
+	This change adds --with-jar to specify the path to the JAR tool to be
+	used to create waba.jar. Also added command to waba_classes/Makefile.am
+	to create waba.jar after creating classes.
+
+	* /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	This modification adds --enable-jar option to configure script.
+	(Hopefully, this doesn't screw up the CVS; it's still showing all the
+	files in the list of `Modified Files').
+
+2001-11-06  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	- improved calculation of font parameters for PicoGUI
+
+2001-11-02  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/waba_classes/waba/ui/MainWindow.java, /cvsroot/waba/waba/waba_classes/waba/ui/TabBar.java:
+	Add a possibility to change the font for the Controls. As the font of
+	the controls are based on the default font of the Main window, you can
+	now set this default font with :
+
+	    waba.ui.MainWindow.setFont( Font newFont )
+
+	* /cvsroot/waba/waba/vm/palm/nmpalm_a.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h:
+	Some correction needed on the Palm port to be able to compile. Not
+	really tested...
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	- add some missed prototypes
+	- now, the PicoGUI build test if the pgserver is black and white and use
+	  this information to decide if we are with a waba or waba color
+	  instance
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.h:
+	A small correction in a comment (two hooks var was wrong commented)
+
+2001-10-31  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Waba.mdl: Add a dependency to uclibz
+
+2001-10-30  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/waba_classes/ch/smartdata/ui/Makefile.am, /cvsroot/waba/waba/waba_classes/ch/smartdata/ui/PasswordEdit.java, /cvsroot/waba/waba/waba_classes/waba/ui/Edit.java, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/waba_classes/Makefile.am, /cvsroot/waba/waba/waba_classes/ch/Makefile.am, /cvsroot/waba/waba/waba_classes/ch/smartdata/Makefile.am:
+	- added a PasswordEdit control, allowing to enter data without it being
+	  echoed in the field
+
+	  The control is placed in a different class tree (ch/smartdata/ui), in
+	  accordance with the WSDD.
+
+2001-10-30  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/macros_m4/misc/crosswaba.m4, /cvsroot/waba/waba/vm/linux/jar.c, /cvsroot/waba/waba/vm/linux/jar2host.h:
+	JAR files are allways in little endian format (I assume after test with
+	JAR file from Intel Linux and Solaris SPARC) . This implies to swap the
+	bytes when loading on a bigendian host. This change add the needed
+	conversion.
+
+2001-10-29  chyrag  <chyrag@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/jar.h:
+	Removed unused code (typedef boolean and typedef Flag) which was used
+	earlier (got to add -Wall to my makefiles ;)).
+
+	* /cvsroot/waba/waba/AUTHORS:
+	Updated with the recent development of class loader for JAR files.
+
+	* /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/waba.h:
+	Makefile.am: add -lz for linking with zlib which is used by JAR file
+	             class loader
+	waba.h: added prototype for the function which is used to load classes
+	             from the JAR file.
+
+	* /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/jar.c, /cvsroot/waba/waba/vm/linux/jar.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	jar.c: This file contains routines to load classes from a JAR file. This
+	       includes -
+	       1. loadClassFrmJar(char * jar, char * classname, int * size)
+	       where the arguments should be self explanatory and
+	       2. getClassFrmOffset(FILE *, struct CentralDirRecord *, int *)
+	       which is used by the former function.
+
+	jar.h: This file contains prototypes for the above functions along with
+	       a few #defines used by the jar.c
+
+	Makefile.am: Addition of jar.c and jar.h for compilation along with
+	       other header and C files.
+
+	nm_linux_b.c: The nativeLoadClass modified to invoke loadClassFrmJar()
+
+2001-10-25  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/examples/RegistryTest/RegistryTest.java, /cvsroot/waba/waba/examples/RegistryTest/SkipBytesTest.java:
+	- added some comments to the Registry tests
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/examples/Makefile.am, /cvsroot/waba/waba/examples/RegistryTest/Makefile.am, /cvsroot/waba/waba/examples/RegistryTest/RegistryTest.java, /cvsroot/waba/waba/examples/RegistryTest/SkipBytesTest.java:
+	- added a couple of tests for the Registry
+
+2001-10-25  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c:
+	Implementation of GraphicsDestroy() and ImageDestroy(). This can save a lot of
+	memory when using many Image.
+
+2001-10-25  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/waba_classes/waba/io/Registry.java:
+	- modified Registry class:
+		- changed skipBytes() to accept negative values and return a position
+		- added function spaceAvailable()
+		- added clarifications to the documentation
+
+2001-10-24  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	- fixed missing initialization causing crashes in some circumstances
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	- added support for the numeric keypad when using PicoGUI
+
+2001-10-24  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/waba.spec.in:
+	Update the RPM specifications for PocketBee
+
+2001-10-23  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/examples/SocketTest/SocketTest.java:
+	Add a test of the Socket.setReadTimeout() function.
+
+	* /cvsroot/waba/waba/Waba.mdl:
+	Add the autogen.sh in the prepare sequence
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h:
+	- correct a bug in the SocketIsOpen()
+	- implement the SocketSetReadTimeout() function
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Drawing an RGB image is now implemented with PicoGUI
+
+2001-10-22  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Activate the ui_ClipTo() function, as PicoGUI is now OK with it. Thanks
+	Micah.
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Implementation of the Pixmap (bitmap) related stuff for PicoGUI.
+
+	The ui_ClipTo() is temporarly disabled, as it cause segfault in the
+	PicoGUI client. I suspect it's when we try to clip in a Bitmap graphic
+	context.
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c:
+	Remove the GTK-specific code handling pixmap from nm_linux_c.c
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/ui_pgui.h:
+	Apply the patch from Micah Dowty (http://pgui.sourceforge.net/). Here is
+	his description of the patch :
+
+	- made the event processing code much smaller
+	- the drawing code simultaneously draws to an offscreen bitmap so
+	  pgserver can automatically redraw the screen when necessary
+	- support for clipping
+	- fixed a memory leak in ui_DrawText
+
+2001-10-18  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Added handling of ArrowLeft, ArrowRight, Home and End for PicoGUI
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Now *even* capital letters work, woohoo :-)
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Implemented the keyboard event handlers for PicoGUI, in order to have
+	Edit widgets work.
+
+2001-10-17  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c:
+	Renamed PocketBee BIOS environment variables from REGISTRY_... to
+	WABA_REGISTRY_...
+
+2001-10-17  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/waba.spec.in:
+	Minor changes to generate good RPM for Bee
+
+2001-10-17  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c: Forgot some debug info ...
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Fixed bug that did not retrieve the correct main class name for Registry
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Modified the way the <class name> argument is handled, allowing for a path
+	and a qualified (with package name) class name:
+	<class name> can be specified as  /my/path/somewhere/mypackage.myclass ,
+	in which case /my/path/somwehere is added to the CLASSPATH, and
+	mypackage.myclass is the full class name. The path part is optional.
+
+2001-10-15  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/waba_classes/waba/io/Makefile.am:
+	Add the Registry class in the Makefile.am
+
+2001-10-15  cgrigis  <cgrigis@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h, /cvsroot/waba/waba/waba_classes/waba/io/Registry.java:
+	First implementation of a Registry class following Sean Luke's suggested
+	specification.
+	So far, implementations for Linux using regular files in ~/.waba and for
+	ChipSlice using BeeBIOS's storage features.
+
+2001-10-12  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Add the possibility to have some options (like -x, -y) in a environment
+	variable called WABAOPTS
+
+	* /cvsroot/waba/waba/README, /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/macros_m4/misc/rpmprofile.m4, /cvsroot/waba/waba/waba.spec.in:
+	Correct some minor problems when generating RPM
+
+2001-10-11  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/macros_m4/misc/rpmprofile.m4, /cvsroot/waba/waba/waba.spec.in:
+	Better handling for RPM creation (both for normal and bee rpm)
+
+	* /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Put a default for the CLASSPATH depending on the installation path
+
+2001-10-09  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/examples/CoreTest/Makefile.am:
+	The CoreTest.app file was removed, but not in the Makefile.am. Now, it's
+	corrected.
+
+	* /cvsroot/waba/waba/macros_m4/misc/rpmprofile.m4:
+	New macro to handle rpm generation
+
+2001-10-08  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/Waba.mdl, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/waba.spec.in:
+	The generation of RPM can now be done allmost easy. Also for bee
+	environment.
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Use the mode PGFX_PERSISTENT instead of PGFX_IMMEDIATE. Please, note
+	this require the last version from CVS of PicoGUI to run correctly
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	If the user don't give a default CLASSPATH, we try to use
+	/usr/share/waba/classes
+
+	* /cvsroot/waba/waba/waba_classes/waba/lang/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/sys/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/ui/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/util/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/fx/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/io/Makefile.am:
+	Now, the classes are no more installed in ${prefix}/classes, but in
+	${datadir}/waba/classes (and in general, ${datadir} is /usr/share)
+
+	* /cvsroot/waba/waba/examples/AddrScan/Makefile.am, /cvsroot/waba/waba/examples/Applications/Makefile.am, /cvsroot/waba/waba/examples/Controls/Makefile.am, /cvsroot/waba/waba/examples/CoreTest/Makefile.am, /cvsroot/waba/waba/examples/HelloWorldWABA/Makefile.am, /cvsroot/waba/waba/examples/ImageSplit/Makefile.am, /cvsroot/waba/waba/examples/PocketWatch/Makefile.am, /cvsroot/waba/waba/examples/Scribble/Makefile.am, /cvsroot/waba/waba/examples/SocketTest/Makefile.am, /cvsroot/waba/waba/examples/TestLongDouble/Makefile.am, /cvsroot/waba/waba/examples/Web/Makefile.am:
+	Now, the examples are no more in ${prefix}/examples, but are in
+	${datadir}/doc/waba/examples (and in general, ${datadir} is /usr/share)
+
+2001-10-05  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Waba.mdl:
+	The mdl file for integration with PocketBee
+
+2001-10-04  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/waba.spec.in:
+	Add the needed things for making RPM. An example for making rpm :
+	( make dist ; sudo rpm -ta waba-1.5.tar.gz )
+	assuming the sources are allready configured
+
+	* /cvsroot/waba/waba/configure.in:
+	So, the Makefile file will be generated in toppers/ruputers
+
+	* /cvsroot/waba/waba/vm/ruputer/Makefile.am, /cvsroot/waba/waba/vm/toppers/Makefile.am:
+	Add the Makefile.am, so a make dist work
+
+	* /cvsroot/waba/waba/examples/CoreTest/Makefile.am, /cvsroot/waba/waba/examples/ImageSplit/Makefile.am, /cvsroot/waba/waba/examples/PocketWatch/Makefile.am:
+	Correct the Makefile to also install the .bmp used by some demos
+
+2001-09-02  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.c:
+	Implemented the native code for Thread.currentThread()
+
+	* /cvsroot/waba/waba/vm/Makefile.am:
+	Update diffs from WABAJTRON branch.
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/palm/nmpalm_c.h, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/port/nmport_c.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h:
+	Implemented Vm.exit(). It corresponds to System.exit(). We have already got MainWindow.exit() but console application because it isn't defined as static. Even if it was defined as static, it's funny to call UI packages from console application.
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h, /cvsroot/waba/waba/vm/port/nmport_b.c, /cvsroot/waba/waba/vm/port/nmport_b.h, /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h, /cvsroot/waba/waba/waba_classes/waba/sys/Thread.java, /cvsroot/waba/waba/vm/waba.c:
+	Added Thread#currentThread(). It is just definition and still dummy.
+
+	* /cvsroot/waba/waba/configure.in:
+	There are so many modification. It's hard to describe all. Sorry.
+
+	* /cvsroot/waba/waba/macros_m4/misc/crosswaba.m4:
+	Modified to enable nm10200-elf (Ruputer) and *-*-toppers
+
+	* /cvsroot/waba/waba/vm/Makefile.am:
+	Added some objects about sjtron into libwaba_a_LIBADD
+
+	* /cvsroot/waba/waba/vm/waba.h: Added include code for nmtoppers_*
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_kernel.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.h:
+	There has major changes. Please forget previous version.
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_c.c:
+	Appended some functions for waba/sys/Convert.toString
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_b.c:
+	There are so many changes that I cannot make description. Mainly these have two reason. The one is to bind Waba thread and ITRON task. The another is to use static main() instead of MainWindow.
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_b.h:
+	Added extern symbol for function definition.
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_b.h:
+	Added thread_id and itron_tskid into WThread.
+
+	* /cvsroot/waba/waba/vm/toppers/Makefile.am:
+	Added files for sjtron into noinst_HEADERS libnmwaba_a_SOURCES
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_b.c:
+	Deleted AllocConsole for debug.
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/waba_classes/waba/ui/Control.java:
+	Modified waba.ui.Conrtol not to inherit waba.sys.Thread. When the control class developer who wannna use thread, he must implement Runnable interface and thread code in his code by himself.
+
+2001-08-19  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Small correction (include the 0 terminal in the test)
+
+	* /cvsroot/waba/waba/waba_classes/waba/ui/Edit.java:
+	Insert suggestion from bug #450570 to test the Graphics object in the draw
+	method before drawing.
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/waba.h:
+	Select QUICKBIND by default as mentionned in the help of configure
+
+2001-08-18  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h:
+	As Thread as now a variable (Runnable target), we must update the hooks of
+	the Control class which extend Thread
+
+	* /cvsroot/waba/waba/acconfig.h:
+	Remove a empty line, because if we leave it, config.h is wrong generated
+
+	* /cvsroot/waba/waba/examples/HelloWorldWABA/HelloWorldWABA.java, /cvsroot/waba/waba/examples/ImageSplit/ImageSplit.java, /cvsroot/waba/waba/examples/PocketWatch/PocketWatch.java, /cvsroot/waba/waba/examples/Scribble/DrawArea.java, /cvsroot/waba/waba/examples/Scribble/Scribble.java, /cvsroot/waba/waba/examples/Scribble/Title.java, /cvsroot/waba/waba/examples/SocketTest/SocketTest.java, /cvsroot/waba/waba/examples/TestLongDouble/TestLongDouble.java, /cvsroot/waba/waba/examples/Web/Web.java, /cvsroot/waba/waba/examples/Web/WebPage.java, /cvsroot/waba/waba/waba_classes/waba/fx/Color.java, /cvsroot/waba/waba/waba_classes/waba/fx/Font.java, /cvsroot/waba/waba/waba_classes/waba/fx/FontMetrics.java, /cvsroot/waba/waba/waba_classes/waba/fx/Graphics.java, /cvsroot/waba/waba/waba_classes/waba/fx/ISurface.java, /cvsroot/waba/waba/waba_classes/waba/fx/Image.java, /cvsroot/waba/waba/waba_classes/waba/fx/Rect.java, /cvsroot/waba/waba/waba_classes/waba/fx/Sound.java, /cvsroot/waba/waba/waba_classes/waba/fx/SoundClip.java, /cvsroot/waba/waba/waba_classes/waba/io/Catalog.java, /cvsroot/waba/waba/waba_classes/waba/io/DataStream.java, /cvsroot/waba/waba/waba_classes/waba/io/File.java, /cvsroot/waba/waba/waba_classes/waba/io/SerialPort.java, /cvsroot/waba/waba/waba_classes/waba/io/Socket.java, /cvsroot/waba/waba/waba_classes/waba/io/Stream.java, /cvsroot/waba/waba/waba_classes/waba/lang/Object.java, /cvsroot/waba/waba/waba_classes/waba/lang/String.java, /cvsroot/waba/waba/waba_classes/waba/lang/StringBuffer.java, /cvsroot/waba/waba/waba_classes/waba/sys/Convert.java, /cvsroot/waba/waba/waba_classes/waba/sys/Runnable.java, /cvsroot/waba/waba/waba_classes/waba/sys/Thread.java, /cvsroot/waba/waba/waba_classes/waba/sys/Time.java, /cvsroot/waba/waba/waba_classes/waba/sys/Vm.java, /cvsroot/waba/waba/waba_classes/waba/sys/VmShell.java, /cvsroot/waba/waba/waba_classes/waba/ui/Button.java, /cvsroot/waba/waba/waba_classes/waba/ui/Check.java, /cvsroot/waba/waba/waba_classes/waba/ui/Container.java, /cvsroot/waba/waba/waba_classes/waba/ui/Control.java, /cvsroot/waba/waba/waba_classes/waba/ui/ControlEvent.java, /cvsroot/waba/waba/waba_classes/waba/ui/Edit.java, /cvsroot/waba/waba/waba_classes/waba/ui/Event.java, /cvsroot/waba/waba/waba_classes/waba/ui/IKeys.java, /cvsroot/waba/waba/waba_classes/waba/ui/KeyEvent.java, /cvsroot/waba/waba/waba_classes/waba/ui/Label.java, /cvsroot/waba/waba/waba_classes/waba/ui/MainWindow.java, /cvsroot/waba/waba/waba_classes/waba/ui/PalmOsPref.java, /cvsroot/waba/waba/waba_classes/waba/ui/PenEvent.java, /cvsroot/waba/waba/waba_classes/waba/ui/Radio.java, /cvsroot/waba/waba/waba_classes/waba/ui/ScrollPane.java, /cvsroot/waba/waba/waba_classes/waba/ui/Tab.java, /cvsroot/waba/waba/waba_classes/waba/ui/TabBar.java, /cvsroot/waba/waba/waba_classes/waba/ui/Timer.java, /cvsroot/waba/waba/waba_classes/waba/ui/ToolBar.java, /cvsroot/waba/waba/waba_classes/waba/ui/WabaAbout.java, /cvsroot/waba/waba/waba_classes/waba/ui/WabaPref.java, /cvsroot/waba/waba/waba_classes/waba/ui/Welcome.java, /cvsroot/waba/waba/waba_classes/waba/ui/Window.java, /cvsroot/waba/waba/waba_classes/waba/util/Vector.java, /cvsroot/waba/waba/examples/AddrScan/AddrCatalog.java, /cvsroot/waba/waba/examples/AddrScan/AddrPanel.java, /cvsroot/waba/waba/examples/AddrScan/AddrRec.java, /cvsroot/waba/waba/examples/AddrScan/AddrScan.java, /cvsroot/waba/waba/examples/AddrScan/Title.java, /cvsroot/waba/waba/examples/Applications/EmptyArray.java, /cvsroot/waba/waba/examples/Applications/FileTest.java, /cvsroot/waba/waba/examples/Applications/HelloWorld.java, /cvsroot/waba/waba/examples/Applications/Nop.java, /cvsroot/waba/waba/examples/Controls/Controls.java, /cvsroot/waba/waba/examples/CoreTest/CoreTest.java:
+	Add the $Id: ChangeLog,v 1.2 2001/11/14 22:45:23 bornet Exp $ to all the .java files
+
+	* /cvsroot/waba/waba/vm/linux/debug.c, /cvsroot/waba/waba/vm/linux/debug.h, /cvsroot/waba/waba/vm/linux/nm_linux_a.c, /cvsroot/waba/waba/vm/linux/nm_linux_a.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_gtk.h, /cvsroot/waba/waba/vm/linux/ui_none.c, /cvsroot/waba/waba/vm/linux/ui_none.h, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/ui_pgui.h, /cvsroot/waba/waba/vm/palm/nmpalm_a.c, /cvsroot/waba/waba/vm/palm/nmpalm_a.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h, /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/palm/nmpalm_c.h, /cvsroot/waba/waba/vm/port/nmport_a.c, /cvsroot/waba/waba/vm/port/nmport_a.h, /cvsroot/waba/waba/vm/port/nmport_b.c, /cvsroot/waba/waba/vm/port/nmport_b.h, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/port/nmport_c.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h, /cvsroot/waba/waba/vm/win32/nmwin32_a.c, /cvsroot/waba/waba/vm/win32/nmwin32_a.h, /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h, /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/tools/wababin.10b9/exegen.c, /cvsroot/waba/waba/tools/wababin.10b9/warp.c:
+	Add the $Id: ChangeLog,v 1.2 2001/11/14 22:45:23 bornet Exp $ to all the .c and .h files
+
+	* /cvsroot/waba/waba/README: Add the $Id: ChangeLog,v 1.2 2001/11/14 22:45:23 bornet Exp $ at the begin of the file
+
+	* /cvsroot/waba/waba/configure.in:
+	Two small typo corrections, and add the $Id: ChangeLog,v 1.2 2001/11/14 22:45:23 bornet Exp $ at the begin of the file
+
+2001-08-16  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/Makefile.am:
+	Added 'toppers' 'ruputer' to DIST_SUBDIRS
+
+	* /cvsroot/waba/waba/vm/toppers/Makefile.am, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_kernel.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_kernel.h:
+	First version
+
+	* /cvsroot/waba/waba/vm/toppers/Makefile.am, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_kernel.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_kernel.h:
+	New file.
+
+	* /cvsroot/waba/waba/vm/ruputer/Makefile.am:
+	Machine dependent files for Ruputer is added. These are for old version. You must fix almost all code if you wanna build binary.
+
+	* /cvsroot/waba/waba/vm/ruputer/Makefile.am: New file.
+
+	* /cvsroot/waba/waba/vm/ruputer/Startup.s, /cvsroot/waba/waba/vm/ruputer/main.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_a.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_b.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_c.c:
+	Machine dependent files for Ruputer is added. These are for old version. You must fix almost all code if you wanna build binary.
+
+	* /cvsroot/waba/waba/vm/ruputer/Startup.s, /cvsroot/waba/waba/vm/ruputer/main.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_a.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_b.c, /cvsroot/waba/waba/vm/ruputer/nmruputer_c.c:
+	New file.
+
+	* /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/autogen.sh, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/.cvsignore, /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h, /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h:
+	Merged updates in the main branch.
+
+2001-08-15  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/Makefile.am:
+	Added configure option --enable-quickbind. Its default value is yes.
+
+	Added some preliminary code for Ruputer and ITRON specfication RTOS.
+	Their nm*.[ch] have not been added yet.
+
+	* /cvsroot/waba/waba/acconfig.h, /cvsroot/waba/waba/autogen.sh, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/.cvsignore, /cvsroot/waba/waba/vm/waba.h:
+	Modified to use config.h.
+	Ofcource, all process to generate config.h will be done automatically when you use configure script,
+
+	And also I guess it becomes easier to port to other environment that you can't use configure
+	script.  The macros the porter must specify are described in acconfig.h.
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/waba.c:
+	Added some configuration options:
+	--enable-fixed-vmstack-size (FIXED_VMSTACK_SIZE for C macro)
+	--enable-fixed-nmstack-size (FIXED_NMSTACK_SIZE for C macro)
+	--enable-fixed-class-heap-size (FIXED_CLASS_HEAP_SIZE for C macro)
+	--enable-fixed-object-heap-size (FIXED_OBJECT_HEAP_SIZE for C macro)
+
+	When you specify them, the VM don't use xmalloc/xfree but static
+	array.
+	These options are useful for the embedded programmer because some kind
+	of realtime kernels don't have variable memory allocator.
+
+	The default value is '0'. It means 'use xmalloc/xfree.'
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.h:
+	Added again extern definition for variable wThreadList, threadListCurrentSize
+	and threadProcessIndex. It was defined in nm_linux_b.h version 1.6.
+
+2001-08-14  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h, /cvsroot/waba/waba/vm/waba.c:
+	*/nm*_b.[ch]: InitThread() was added.
+	waba.c: VmInit calls InitThread().
+
+	This is a preliminary for the thread stack.
+	In this time, there are no code for it.
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h:
+	Almost all thread code was modified.
+	New code is based on the queue data structure.
+	Array structure (used on previous version) was simple but slow, not flexible.
+
+	I've not use native thread yet.
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h:
+	Implemented VmPrint VmPrintLn. So you can use VmShell.print{ln}. I have selected AllocConsole() to print message. I guess WinCE also have the API but I don't know if you can build VM for CE without any patch.
+
+	* /cvsroot/waba/waba/configure.in: deleted --enable-feature
+	added --enable-{catalog, file, ..., and so on....}
+
+	See more detail: configure --help
+
+2001-08-13  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_a.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_a.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_b.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_b.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_c.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_c.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.h:
+	First version. They are not complete.
+
+	* /cvsroot/waba/waba/vm/toppers/nmtoppers_a.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_a.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_b.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_b.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_c.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_c.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_evtflg.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_semaphore.h, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.c, /cvsroot/waba/waba/vm/toppers/nmtoppers_sjtron_task.h:
+	New file.
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/waba.c:
+	configure.in: deleted --enable-catalog. added --enable-features
+	waba.c: added #if clause for WITH_*_CLASS defined at configure.
+
+	This modification provides you to select which native method you want to use.
+	You'll get 2 merits:
+	1. You'll get some memory space. It'll be pleasure if you are writing embedded application.
+	2. You'll get more secure VM.
+	There are no sand-box in WabaVM. So damn cracker can make Torojan virus.
+	Almost all games don't need TCP/IP, Serial.
+
+	Default value is 'all'.
+
+2001-08-12  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/waba_classes/waba/sys/Thread.java: Added comment
+
+	* /cvsroot/waba/waba/vm/port/nmport_a.c, /cvsroot/waba/waba/vm/port/nmport_a.h, /cvsroot/waba/waba/vm/port/nmport_b.c, /cvsroot/waba/waba/vm/port/nmport_b.h, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/port/nmport_c.h:
+	Update to fit recent nm* files. (added for thread, 64bits). This modification is not complete  yet.
+
+	* /cvsroot/waba/waba/vm/waba.c:
+	DumpMethod and dumpMethod is only used when VM is built with DEBUG.
+	So these are enclosed in #if macro.
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/waba.h:
+	Macro SANITYCHECK is moved to configure.in. Use "--enable-sanitycheck" if you wanna.
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/palm/nmpalm_c.h, /cvsroot/waba/waba/vm/port/nmport_c.c, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h:
+	nable to control whether you include Catalog class or not.
+	1. You can run configure with --disable-catalog option.
+	2. There are some WITH_CATALOG define in the VM code.
+	If you use VM under Win32(not CE) or UNIXen, you'll save some memory area.
+	Default setting is --enable-catalog.
+
+	* /cvsroot/waba/waba/.cvsignore:
+	There file is generated automatically by autogen.sh
+
+2001-08-11  monaka  <monaka@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/vm/waba.c: PalmOS dependent code
+	 // waba/ui/PalmOsPref_setPalmOsPref_([B)V
+	 // waba/ui/PalmOsPref_getPalmOsPref_([BII)I
+	was encrosed with define macro.
+
+	* /cvsroot/waba/waba/vm/waba.c:
+	This modification is based on patch #448703.
+
+	The thread code is moved to nm*.[ch]
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_a.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/palm/nmpalm_b.c, /cvsroot/waba/waba/vm/palm/nmpalm_b.h, /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h:
+	This modification is based patch #448703.
+	Native thread mechanism will be strongly depended on its environment.
+	So the thread code is moved from waba.c to nm_*.[ch]
+
+	Created functions are follows:
+
+		tickThread
+		registerAsSyncronized, exitFromSyncronized
+		enterMonitor, exitMonitor
+
+	I've not tested under palm yet. But it will work fine.
+
+	* /cvsroot/waba/waba/waba_classes/waba/sys/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/sys/Runnable.java, /cvsroot/waba/waba/waba_classes/waba/sys/Thread.java:
+	Runnable interface support.
+	It's very important to support runnable because Java
+	(and also Waba) doesn't have multiple inheritance.
+	It's a small hack. Also all application already written will work fine.
+
+2001-08-05  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/BUGS, /cvsroot/waba/waba/vm/waba.h:
+	Update the BUGS file (remove the gc() descrition bug :-))) )
+
+	* /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h:
+	Some more checks in QUICKBIND mode, which prevent the VM to crash in some
+	situation like with the bug #447891
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_a.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c:
+	Correct two important bugs on the Linux version :
+
+	  - crash of the VM when compiling with the option QUICKBIND
+	  - problem after the vm as do a garbage collector
+
+	Mainly this two bug come from one "small" error : the definition of the
+	xmemzero was wrong. It was :
+	memset(mem, len, 0). Correct is :
+	memset(mem, 0, len). !!! This bug was certainly comming when we have take
+	the Palm Port to start : with the Palm, it's MemSet(mem, len, 0) !!!
+
+2001-08-04  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/waba.c:
+	Add a test at begin of getMethod() with no QUICKBIND defined to return NULL
+	when wclass is NULL. Correct the bug #447891 on Linux.
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/ui_gtk.c:
+	Finish the Thread implementation in GTK
+
+2001-07-23  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/win32/nmwin32_b.c:
+	Apply patch #443095 : Patch for Wrp enabling (Win32)
+
+	* /cvsroot/waba/waba/test_all_make.sh:
+	Just adapt the script test_all_make.sh to use javac and not let the
+	system to choose the Java compiler
+
+	* /cvsroot/waba/waba/README, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/examples/AddrScan/Makefile.am, /cvsroot/waba/waba/examples/Applications/Makefile.am, /cvsroot/waba/waba/examples/Applications/Nop.java, /cvsroot/waba/waba/examples/Controls/Makefile.am, /cvsroot/waba/waba/examples/CoreTest/Makefile.am, /cvsroot/waba/waba/examples/HelloWorldWABA/Makefile.am, /cvsroot/waba/waba/examples/ImageSplit/Makefile.am, /cvsroot/waba/waba/examples/PocketWatch/Makefile.am, /cvsroot/waba/waba/examples/Scribble/Makefile.am, /cvsroot/waba/waba/examples/SocketTest/Makefile.am, /cvsroot/waba/waba/examples/TestLongDouble/Makefile.am, /cvsroot/waba/waba/examples/Web/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/fx/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/io/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/lang/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/sys/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/ui/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/util/Makefile.am:
+	Apply patch  #442727 : Patch for enabling JAVACFLAGS, with little
+	adaptation.
+
+	With this patch (and the adaptation), you can choose which java compiler
+	you want, and you can pass options to it. Here his the new option available
+	with configure :
+
+	  --with-classpath        If you want to specify the CLASSPATH
+	  --with-javac-flags      If you want to use javac with option
+	  --with-javac            If you want to specify which java compiler to use
+
+	* /cvsroot/waba/waba/examples/TestLongDouble/Makefile.am, /cvsroot/waba/waba/test_all_make.sh, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_none.c, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/waba_classes/waba/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/io/Catalog.java, /cvsroot/waba/waba/waba_classes/waba/io/DataStream.java, /cvsroot/waba/waba/waba_classes/waba/io/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/lang/String.java, /cvsroot/waba/waba/waba_classes/waba/sys/Convert.java, /cvsroot/waba/waba/waba_classes/waba/util/Vector.java:
+	- Change the Catalog class to use no more native methods. So, this is more
+	  portable between ports. Source taken from "Waba for Dos" :
+	  http://www.thisiscool.com/doswaba.htm . For this change, we also have
+	  created the class DataStream and add the following methods :
+
+	    - int waba.lang.String.indexOf(int c)
+	    - int waba.lang.String.indexOf(int c, int index)
+	    - String waba.lang.String.substring(int start)
+	    - String waba.sys.Convert.toUpperCase(String s)
+	    - String waba.sys.Convert.toLowerCase(String s)
+	    - char waba.sys.Convert.toLowerCase(char c)
+	    - char waba.sys.Convert.toUpperCase(char c)
+	    - void waba.util.Vector.removeAll()
+
+	- Continue the port to PicoGUI. No "real" new ameliorations are done, just
+	  some preparation. This mean there is now lower #ifdef GUI_GTK in the source
+	  nm_linux_c.c
+
+2001-06-19  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/examples/TestLongDouble/Makefile.am, /cvsroot/waba/waba/examples/TestLongDouble/TestLongDouble.java:
+	Add example TestLongDouble.java
+
+	* /cvsroot/waba/waba/examples/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_a.c, /cvsroot/waba/waba/vm/linux/nm_linux_a.h, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/palm/nmpalm_a.c, /cvsroot/waba/waba/vm/palm/nmpalm_a.h, /cvsroot/waba/waba/vm/palm/nmpalm_c.c, /cvsroot/waba/waba/vm/palm/nmpalm_c.h, /cvsroot/waba/waba/vm/waba.c, /cvsroot/waba/waba/vm/waba.h, /cvsroot/waba/waba/vm/win32/nmwin32_a.c, /cvsroot/waba/waba/vm/win32/nmwin32_a.h, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h, /cvsroot/waba/waba/waba_classes/waba/lang/String.java, /cvsroot/waba/waba/waba_classes/waba/lang/StringBuffer.java, /cvsroot/waba/waba/waba_classes/waba/sys/Convert.java, /cvsroot/waba/waba/configure.in:
+	Support for Long and Double is now alsmost finish. Thanks to SuperWaba
+	for this (http://www.superwaba.org/).
+
+	Only tested with gcc. Double works for Linux and Win32. Long works for
+	Linux. Long on win32 seems not correct. With Palm, Long and Double are
+	not working at this time.
+
+	By default, no support is compiled. You must enable by passing
+	--with-64bits to configure.
+
+	configure has also some new options : --enable-debug,
+	--enable-optimisation and --enable-debugopcode
+
+2001-05-21  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Makefile.am:
+	Add the README.uClinux to the distribution
+
+	* /cvsroot/waba/waba/README: Update to include README.uClinux
+
+	* /cvsroot/waba/waba/README.uClinux:
+	Add some information how to compile for uClinux
+
+	* /cvsroot/waba/waba/vm/linux/ui_pgui.c:
+	Adapt to the last version of PicoGUI
+
+2001-05-14  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_gtk.h, /cvsroot/waba/waba/vm/linux/ui_none.c, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h:
+	Add the possibility to specify the width and height of the MainWindow at
+	startup (either with -x, -y or with --width, --height flags).
+
+2001-05-08  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/README, /cvsroot/waba/waba/autogen.sh, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/examples/CoreTest/CoreTest.prc, /cvsroot/waba/waba/examples/CoreTest/bor.lnk, /cvsroot/waba/waba/examples/CoreTest/bor.prc, /cvsroot/waba/waba/macros_m4/misc/aclocal-include.m4, /cvsroot/waba/waba/macros_m4/misc/crosswaba.m4, /cvsroot/waba/waba/test_all_make.sh, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/debug.c, /cvsroot/waba/waba/vm/linux/debug.h, /cvsroot/waba/waba/vm/linux/nm_linux_a.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_gtk.h, /cvsroot/waba/waba/vm/linux/ui_none.c, /cvsroot/waba/waba/vm/linux/ui_none.h, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/palm/Makefile.am, /cvsroot/waba/waba/vm/win32/Makefile.am:
+	- add ui_none.c and ui_none.h to permit the compilation with a "NULL"
+	  graphics driver.
+
+	- change the cross-compilation process, and implement cross-compilation
+	  for uClinux. Now, cross-compilation is done via --with-prefix=xxx
+	  option. For example, cross-compilation for uClinux with m68k-pic-coff
+	  tools is done via :
+
+	        ./configure --with-prefix=m68k-pic-coff
+
+	- move the test of the keysyms from vm/linux/nm_linux_b.c to the correct
+	  ui_gtk.c, ui_pgui.c or ui_none.c.
+
+	- make the use of glib.h optional for PicoGUI.
+
+	- debug.h and debug.c : remove _dummy_(...) from the .c and put directly
+	  in the .h.
+
+	- synchronize the PicoGUI libraries with the last CVS of PicoGUI. New
+	  problem: no more the possibility to change the font.
+
+	- remove some files not needed (.prc/.pdb)
+
+2001-04-18  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/README, /cvsroot/waba/waba/TODO, /cvsroot/waba/waba/test_all_make.sh, /cvsroot/waba/waba/vm/TODO, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_a.c, /cvsroot/waba/waba/vm/linux/nm_linux_a.h, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.h, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_gtk.h, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/ui_pgui.h:
+	- update README and TODO
+	- update test_all_make.sh to test GTK and PicoGUI ports
+	- change comments about GTK in nm_linux_* and ui_*
+	- update Makefile.am to have every time all file when we do a "make
+	  dist"
+	- use pgSetColor() instead of pgSetcolor().
+
+	* /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/linux/Makefile.am, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/linux/ui_gtk.c, /cvsroot/waba/waba/vm/linux/ui_gtk.h, /cvsroot/waba/waba/vm/linux/ui_pgui.c, /cvsroot/waba/waba/vm/linux/ui_pgui.h:
+	- First commit of the PicoGUI port. See http://pgui.sourceforge.net/ for
+	  more information on it. To use the PicoGUI interface, configure with
+	  the flag --with-pgui
+
+	- small modification for the Win32 compilation : add the flag -mwindows
+	  to have a GUI programm and not a console based.
+
+2001-04-13  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/win32/Makefile.am:
+	Declaration of the noinst_HEADERS, so a make dist put them in the
+	archive.
+
+	* /cvsroot/waba/waba/README, /cvsroot/waba/waba/examples/Scribble/Makefile.am, /cvsroot/waba/waba/test_all_make.sh, /cvsroot/waba/waba/tools/wababin.10b9/warp.c, /cvsroot/waba/waba/vm/linux/nm_linux_b.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/linux/nm_linux_c.h, /cvsroot/waba/waba/vm/win32/nmwin32_c.c:
+	1. Minor changes for Solaris port under GTK. INADDR_NONE and NAME_MAX are
+	not defined on Solaris. About NAME_MAX, here is why (from Solaris 7
+	/usr/include/limits.h) :
+
+	/*
+	 *
+	 * POSIX 1003.1a, section 2.9.5, table 2-5 contains [NAME_MAX] and the
+	 * related text states:
+	 *
+	 * A definition of one of the values from Table 2-5 shall be omitted from the
+	 * <limits.h> on specific implementations where the corresponding value is
+	 * equal to or greater than the stated minimum, but where the value can vary
+	 * depending on the file to which it is applied. The actual value supported for
+	 * a specific pathname shall be provided by the pathconf() (5.7.1) function.
+	 *
+	 * This is clear that any machine supporting multiple file system types
+	 * and/or a network can not include this define, regardless of protection
+	 * by the _POSIX_SOURCE and _POSIX_C_SOURCE flags.
+	 *
+	 * #define      NAME_MAX        14
+	*/
+
+	2. Add file test_all_make.sh, so test compilation for all the platform
+	is more easy.
+
+	3. Correction of the Makefile.am of Scribble example
+
+	* /cvsroot/waba/waba/macros_m4/pilot/ac_prog_build_prc.m4, /cvsroot/waba/waba/macros_m4/pilot/ac_prog_exegen.m4, /cvsroot/waba/waba/macros_m4/pilot/ac_prog_warp.m4:
+	Add m4 macros files for testing build-prc/exegen/warp (forgetted last
+	commit, sorry)
+
+	* /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/win32/Makefile.am, /cvsroot/waba/waba/vm/win32/nmwin32_a.c, /cvsroot/waba/waba/vm/win32/nmwin32_a.h, /cvsroot/waba/waba/vm/win32/nmwin32_b.c, /cvsroot/waba/waba/vm/win32/nmwin32_b.h, /cvsroot/waba/waba/vm/win32/nmwin32_c.c, /cvsroot/waba/waba/vm/win32/nmwin32_c.h, /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/README, /cvsroot/waba/waba/configure.in:
+	Add the possibility to cross-compile for WIN32 target. Mainly :
+	CC=i386-mingw32msvc-gcc ./configure --host=i386-pc-mingw32msvc
+
+	Before this, you need to have cross-compilation tool for Win32. I have
+	tryed with http://mingw.sourceforge.net/. You can find binary for Linux at
+	http://www.devolution.com/~slouken/SDL/Xmingw32/
+
+2001-04-12  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/configure.in:
+	Check the exegen/build-prc/warp executable, and add a possibility to
+	change the way to find them
+
+2001-04-11  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/Makefile.am, /cvsroot/waba/waba/configure.in, /cvsroot/waba/waba/examples/AddrScan/Makefile.am, /cvsroot/waba/waba/examples/Controls/Makefile.am, /cvsroot/waba/waba/examples/CoreTest/Makefile.am, /cvsroot/waba/waba/examples/ImageSplit/Makefile.am, /cvsroot/waba/waba/examples/PocketWatch/Makefile.am, /cvsroot/waba/waba/examples/Scribble/Makefile.am, /cvsroot/waba/waba/examples/Web/Makefile.am, /cvsroot/waba/waba/vm/Makefile.am, /cvsroot/waba/waba/vm/palm/Makefile.am, /cvsroot/waba/waba/waba_classes/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/fx/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/io/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/lang/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/sys/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/ui/Makefile.am, /cvsroot/waba/waba/waba_classes/waba/util/Makefile.am:
+	Add support for autoconf/automake and Palm .prc/.pdb generation.
+
+2001-03-29  jeepmutt  <jeepmutt@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/waba_classes/waba/fx/Color.java:
+	removed the duplicate example of red. Mainly for testing my new box's setup.
+
+2001-03-19  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/linux/nm_linux_c.c, /cvsroot/waba/waba/vm/TODO:
+	Implementation of SetPixel() done
+
+2001-03-12  jeepmutt  <jeepmutt@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/waba_classes/waba/fx/Color.java:
+	Added setters for attributes red, green, and blue.
+
+2001-03-09  chyrag  <chyrag@xenon.my.smartdata>
+
+	* /cvsroot/waba/waba/tools/wababin.10b9/warp.c:
+	- Added the #ifdef __FreeBSD__ and #include <sys/syslimits.h> in warp.c,
+	  to enable it to work on FreeBSD as well. Now, Waba runs on FreeBSD as
+	  well.
+
+	* /cvsroot/waba/waba/README: - Added FreeBSD 4.1.1 to the list of ports
+	- Corrected spelling of requirements in README
+
+2001-03-09  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/vm/BUGS: Just add an old bug description
+
+2001-03-08  Olivier Bornet  <Olivier.Bornet@smartdata.ch>
+
+	* /cvsroot/waba/waba/autogen.sh:
+	Hoops ! But always need --add-missing. Sorry
+
+	* /cvsroot/waba/waba/autogen.sh:
+	autogen.sh is updated : no more need of --foreign
+
+	* /cvsroot/waba/waba/AUTHORS, /cvsroot/waba/waba/ChangeLog, /cvsroot/waba/waba/NEWS, /cvsroot/waba/waba/README:
+	Add some general files to be more "GNU-compliant"

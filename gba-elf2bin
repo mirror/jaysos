@@ -1,0 +1,15 @@
+#!/bin/sh
+# usage: gba-elf2bin <elf> <bin>
+
+rm -f /tmp/tmp.{text,rodata,data,bss}
+
+OBJCOPY=arm-thumb-elf-objcopy
+
+$OBJCOPY -O binary -j .text $1 /tmp/tmp.text
+$OBJCOPY -O binary -j .data --change-section-lma .data=0 $1 /tmp/tmp.data
+$OBJCOPY -O binary -j .rodata $1 /tmp/tmp.rodata
+$OBJCOPY -O binary -j .bss $1 /tmp/tmp.bss
+cat /tmp/tmp.{text,rodata,data,bss} > $2
+
+#rm -f /tmp/tmp.{text,data,rodata,bss}
+

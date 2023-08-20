@@ -1,0 +1,285 @@
+                             WABA RELEASE 1.5
+
+Revision of this file:
+$Id: README,v 1.13 2002/04/13 16:47:35 trithemius Exp $
+
+TO COMPLETE BEFORE RELEASING 1.6:
+- Requirements
+- Specific ./configure options for Waba.
+- installation of binaries
+- tested on
+- file HISTORY
+
++--------------+
+| INTRODUCTION |
++--------------+
+
+This directory has the latest Waba Virtual Machine.
+
+Report any bugs to waba@smartdata.ch
+
+Main web site is http://waba.sourceforge.net/ -- see that site for the
+latest updates.
+
+To see difference with the latest version, see the file HISTORY.
+
++--------------+
+| Requirements |
++--------------+
+
+Every GTK based installation needs at least GTK version 1.2.0.
+
+If you want to use the PicoGUI graphical interface, please install it
+from http://pgui.sourceforge.net/. Since either PicoGUI and Waba are
+in active developement, the current implementation of Waba uses the
+last CVS version of PicoGUI. Please note using PicoGUI is not fully
+supported now, so use it at your own risk.
+
+You can cross-compile from Linux for uClinux 2.0, PalmOS and WIN32
+target. Maybe other targets can be used, but no tests have been done.
+
+To cross-compile for uClinux, you need tools from uClinux distribution.
+See the file README.uClinux for more informations.
+
+To cross-compile for PalmOS, you need prc-tools
+(http://prc-tools.sourceforge.net/) and PilRC (http://www.pilrc.com/).
+
+To cross-compile for WIN32, you need "Minimalist GNU For Windows"
+(http://mingw.sourceforge.net/). RPM binary for Linux is available at
+http://www.devolution.com/~slouken/SDL/Xmingw32/
+
++-----------------------------------------------------+
+| Installation from the tar/zip sources distributions |
++-----------------------------------------------------+
+
+If you are reading this file, it's certainly mean you already have
+downloaded the archive, and explode it. If not, go to the main waba
+site http://waba.sourceforge.net/, download latest source distribution
+and explode it with the correct tool.
+
+1. For the impatient :
+----------------------
+
+./configure
+make
+make install
+
+2. Details of the installation :
+--------------------------------
+
+a. ./configure
+--------------
+
+./configure has a lot of options. To have the full list, just type :
+
+./configure --help
+
+Specific waba options are :
+
+--with-prefix=<tool prefix>
+    Specify the prefix to use with gcc, ar, ... For example :
+    --with-prefix=m68k-palmos will compile with the m68k-palmos-gcc compiler.
+
+--with-buildprc=/path/to/build-prc
+    Specify the build-prc path if needed (default to build-prc)
+--with-warp=/path/to/warp
+    Specify the warp path if needed (default to warp)
+--with-exegen=/path/to/exegen
+    Specify the exegen path if needed (default to exegen)
+
+--with-nogui
+    Build a Waba VM with a "NULL" graphics library instead of the GTK default
+--with-pgui
+    Compilation for PicoGUI instead of GTK
+--with-glib
+    Use this if you want to use glib with PicoGUI for the definition of types
+--with-x
+    Build a Waba VM with an Xlib GUI instead of GTK
+
+--enable-debug
+    If you want to have a code with debug information
+
+--with-classpath
+    If you want to specify the CLASSPATH
+--with-javac-flags
+    If you want to use javac with option
+--with-javac
+    If you want to specify which java compiler to use
+
+
+Others usefull options are :
+
+--prefix=/where/to/install
+
+
+NOTE ON JAVA COMPILERS:
+-----------------------
+The current Waba version has been tested with various versions of Java compilers.
+The following ones, along with their required configure parameters, are working:
+
+
+Kaffe kjc (version 1.3C):
+
+./configure <other_configure_parameters> --with-javac=<path_to_kjc>/kjc
+
+
+Sun javac (J2SE 1.3):
+
+./configure <other_configure_parameters> --with-javac=<path_to_javac>/javac
+
+
+IBM jikes (version 1.11):
+
+./configure <other_configure_parameters> --with-javac=<path_to_jikes>/jikes
+  --with-classpath=<path_to_jdk>/jre/lib/rt.jar:<path_to_waba_install>/waba_classes
+  --with-javac-flags=+CSO
+
+Notice that Jikes requires additional classpath information and compiler flags
+(to be adapted for your installation and configuration):
+
+- the standard libraries (I guess the other compilers take their respective
+defaults, Kaffe and Sun's library); using Sun's standard libraries has been
+tested and works, it should be possible to use Kaffe's standard classes as
+well, but this has not been tested yet
+
+- the path where the source Waba classes reside (with the full path where you 
+have untarred or checked out the Waba sources); for example, if you have the
+Waba sources in /home/joe/waba, the source Waba classes are in 
+/home/joe/waba/waba_classes
+
+- the "+CSO" compiler option
+
+Without the last two, Jikes reports errors when it compiles a class that depends 
+on another one not yet compiled.
+
+
+So far, GNU gcj has been reported as not working.
+
+
+a1. cross-compilation
+"""""""""""""""""""""
+
+A typical configuration line to cross-compile for a uClinux version is :
+
+    ./configure --with-pgui=/path/of/pgui_for_m68k --with-prefix=m68k-pic-coff
+
+A typical configuration line to cross-compile for a PalmOS version is :
+
+    ./configure --with-prefix=m68k-palmos --enable-optimisation
+
+    NOTE: The --enable-optimisation is required to shrink the binaries
+    enough to be PalmOS friendly.
+
+A typical configuration line to cross-compile for a WIN32 version is :
+
+    ./configure --with-prefix=i386-mingw32msvc
+
+Note cross-compilation requiere developements tools for uClinux,
+PalmOS and/or WIN32 installed on your system. See "Requirements"
+chapter for more information.
+
+b. make
+-------
+
+make will go trough all the directories and compile everything it's needed.
+
+c. make install
+---------------
+
+make install will install all the needed files in the given prefix. By default,
+it install :
+
+- binaries in /usr/local/bin
+- classes in /usr/local/classes
+- samples in /usr/local/examples
+
+d. use of the Waba VM
+---------------------
+
+You first need to have correct paths for PATH and CLASSPATH. For a
+default installation, you need to have /usr/local/bin in your PATH and
+/usr/local/share/waba/classes as well as /usr/local/share/doc/waba/examples
+in your CLASSPATH. Then you can try to do:
+
+waba
+
+This will display an about box.
+
+The examples are all in a separate package named after their main class.
+For instance, the CoreTest example is in the CoreTest package, and to
+run it, type:
+
+waba CoreTest.CoreTest
+
+Some examples need extra files (images, etc.), and will require you
+to cd to their directory before running them. They should still be
+run with the package name though, as in:
+
+cd <waba_dir>/examples/PocketWatch
+waba PocketWatch.PocketWatch
+
+If you need help about existing running options, use -h :
+
+waba -h
+
++------------------------------------------------------+
+| Installation from the tar/zip binaries distributions |
++------------------------------------------------------+
+
+TO COMPLETE WHEN RELEASE 1.5 is OUT
+
++-----------------------------------+
+| Installation from the CVS sources |
++-----------------------------------+
+
+CVS version is the actualy on heavy developement. Use this version
+only if you want to contribute, or if you really need a feature not
+allready in a distributed version.
+
+Using the CVS sources implies your known the basic use of CVS
+(http://www.cvshome.org/). It also implies you have some basic
+development tools installed, in particular autoconf and automake (see
+http://www.gnu.org/ for more informations about them).
+
+To get the actual cvs version, you can do (just hit return when asked
+for a password):
+
+cvs -d:pserver:anonymous@cvs.waba.sourceforge.net:/cvsroot/waba login
+cvs -z3 -d:pserver:anonymous@cvs.waba.sourceforge.net:/cvsroot/waba co .
+
+Then prepare the sources with :
+
+./autogen.sh
+
+Remaning steps for the installation is the same as installing from
+the tar/zip sources distributions.
+
++---------------+
+| Building RPMs |
++---------------+
+
+To build a "standard" RPMs, configure with the following :
+
+./configure  --with-javac=javac --prefix=/usr --with-rpm-root=NONE
+
+and then run :
+
+make rpm
+
+This will generate 4 RPMs :
+
+waba-vm       : the virtual machine
+waba-classes  : all the Waba classes
+waba-examples : the examples
+waba-mdl      : the config for Bee. Not used at this time.
+
++-----------+
+| Tested on |
++-----------+
+
+The current version was tested on :
+
+- Linux 2.4.4 with GTK 1.2.8.
+- Linux 2.4.4 with PicoGUI CVS.
+- FreeBSD 4.1.1 with GTK 1.2.8.
+- Solaris 7 with GTK 1.2.8.

@@ -1,0 +1,421 @@
+
+JaysOS 0.2.1 & Waba VM for the Gameboy Advance
+
+Written by Justin Armstrong <ja@badpint.org> 19 September 2002
+
+http://badpint.org/jaysos
+-------------------------------------------------
+
+CHANGE HISTORY 
+
+Release 0.2.1  18 September 2002
+
+* moved all static data into IWRAM, EWRAM is now
+  used entirely for the heap
+* line drawing is now clipped to inside the window
+
+Release 0.2.0  9 August 2002
+
+* Now has a malloc
+* Threads can now have "thread local storage".
+* Threads can now have a destructor callback function,
+  that runs when the thread dies to carry out any needed cleanup.
+  Mainly used to delete thread local storage.
+* Added a printf and more handy libc functions (from NetBSD mostly)
+* Rolled in Damian Yerrick's GBFS
+* Added an "alarm" (aka "timer") mechanism, which
+  allows a callback to be registered to run at some point
+  in the future.
+* Breakout and Life allocate their locals from
+  the heap, and so you can have multiple instances
+  running.
+* Added a few more shell commands
+* Renamed gbacrt0.s to lowlevel.s because it
+  contains a variety of asm code and not just the
+  setup code you'd expect to find in a crt0.s
+* Ported the Waba VM to Jaysos 
+  - Waba (http://waba.sourceforge.net) is an unofficial 
+    Java VM and set of class libraries.
+    Information on the waba port is in the file waba/README.jaysos
+
+-------------------------------------------------
+
+1. INTRODUCTION
+
+1.1 WHAT IS IT?
+
+JaysOS is a "toy OS" that runs on the Gameboy Advance.
+It provides preemptive threads, semaphores, 
+condition variables, and message queues.
+
+I've included 3 fairly lame demo "apps":
+a breakout game, a version of Conway's Life,
+and a cpu usage displaying app.  As of 0.2,
+it also includes a port of the Waba VM for
+Java bytecodes.
+
+These interact with the world using
+the "UI Manager", which is in charge of
+* keeping track of window sizes
+* running a redraw thread
+* dispatching events to message queues
+
+There is also a "shell" app, which works over
+a serial connection (e.g. MBV2 cable), 
+and allows you to control what is going on using simple 
+commands. 
+
+As the ARM7TDMI has no MMU, JaysOS can't provide
+seperate address spaces for "tasks" like
+in a real OS.
+
+Another limitation of JaysOS is the lack of proper
+system calls.  In most OSes, user apps communicate
+with the kernel through software interrupts.
+Unfortunately in the GBA the BIOS traps all
+software interrupts and handles them itself, so
+they can't be used to call into JaysOS.
+Apps have to call kernel functions directly.
+
+As of version 0.2.0, there is a heap manager,
+but it is only used by the apps.  The kernel
+itself uses only statically allocated data structures.
+
+Static memory allocation means a lot of things
+are fixed in JaysOS. There is a maximum of 32
+threads for instance.
+
+
+1.2 WHY DID I DO THIS?
+
+Basically, to learn how to do something like this.
+
+JaysOS is not meant to be useful or to represent my idea 
+of how a real OS should work.
+Design decisions were made based on whatever i felt
+like learning about that day.
+(note to potential employers: in real life i don't do this ;)
+
+Hopefully it might serve as a basic introduction
+to operating systems. I've tried to make the code 
+as simple as possible.
+
+Feel free to rip any bits of code that
+might be useful to you.
+
+---------------------------------------------
+
+2. TRYING IT OUT
+
+2.1 Controlling The Apps
+
+You control the apps running under JaysOS with
+the buttons on the front of the GBA.
+The Start button pauses/unpauses apps that
+support pause (Life and Breakout)
+
+The Breakout app works like you'd expect - move
+the bat left and right and try to keep the ball in motion.
+I haven't bothered to implement different levels, score
+or anything fancy.
+
+The only control the Life app has is the A button,
+which can be used to restart the simulation with
+a random arrangement of cells.
+
+As you can only control one window at a time, the
+UI Manager has the concept of an "active window".
+The active window is the only one which receives button
+events. The active window is drawn with a blue border.
+
+You can change the active window by using the buttons
+on the top of the GBA marked "L" and "R".
+
+
+2.2. The Shell
+
+(No emulators simulate the serial port, so you will
+need a real GBA for this!)
+
+I have only tested it with the MBV2 cable, 
+but i would imagine it works similarly with 
+homebrew serial cables too.
+
+Set up your terminal software to 9600 8N1 ANSI mode.
+
+(i've used it with minicom on linux and zterm on MacOS X
+- using a keyspan USB->serial adapter)
+
+Turn on the GBA. If you are using the MBV2
+type "C" (on your PC) a few times while the Gameboy logo is
+displaying until it prints "Coded by Jeff Frohwein". 
+That is actually coming from the MBV2 and is nothing to do
+with me.  Now type "U" until you see a message
+welcoming you to JaysOS.  
+If it doesn't work try "rebooting" your GBA and trying again.
+    
+You can type "help" to get a list of recognised commands.
+currently this is
+    ps - list all threads running  
+    queues - list all msg queues registered with the UI Mgr
+    kill <queue_name> - sends a MSG_QUIT to the specified msg queue
+    mem - show the heap statistics
+    ls - list all files in the GBFS archive
+    print <path_to_text_file> - dumps to the terminal the contents of the specified file
+    breakout - start a game of breakout
+    life - start Conway's Life
+    stats - starts an app that displays some statistics
+    waba <path_to_classfile> - start the Waba VM (see waba/README.jaysos)
+    uname - prints the version
+    uptime - prints the time elapsed since the GBA was switched on
+       
+-------------------------------------------------    
+3.  BRIEF DESIGN OVERVIEW
+
+3.1 Threads
+    Threads can be READY (available to run), BLOCKED (waiting on a cond_lock or semaphore),
+    SLEEPING (waiting for a number of centiseconds to elapse) or DEAD.
+
+    3.1.1   Semaphores            
+        Used to restrict the number of simultaneous users of a resource.
+
+    3.1.2   Condition Variables  (called cond_locks in JaysOS)
+        Allow threads to block until specific events occur.
+        cond_lock_wait() blocks a thread until
+        another thread calls cond_lock_signal() on the same cond_lock.
+        More than one thread can be blocked on the same condidtion, all
+        will be woken when cond_lock_signal() is called.
+
+3.2 Alarms
+    An alarm is a function that is scheduled to run at some time in the future.
+    The kernel will call this function (in interrupt context) when the 
+    activate_time expires.  
+    
+3.3 Message queues
+    Implemented with a fixed width buffer.
+    - Non-blocking read - returns false if the queue is empty
+    - Blocking read - blocks the calling thread until there is something in the queue.
+    - Non-blocking write - if the queue is full returns false discards the message.
+    - Blocking write - blocks the calling thread until there is space for the mesage
+
+3.4 The UI Manager
+    Threads that want to display something in a window,
+    and get events register themselves with the UI Manager.
+    
+    Currently, a maximum of 4 "clients" can be registered
+    with the UI Manager. Each Client has a message queue
+    and a "window" to draw in.
+    The screen is divided so that each client gets a 
+    window of equal size.
+    The size of a client's window can change as new
+    clients register and deregister with the UI Manager.
+
+
+    3.4.1   Button Events
+        An interrupt handler picks up button events and
+        posts them to the message queue of the active window.
+    
+    3.4.2   Alarm Events
+        ui_alarm_add() requests that a MSG_ALARM be posted
+        to the app's ui msg queue after the specified time
+        has elapsed.
+        This is built on top of the kernel alarm mechanism,
+        and for apps, it is usually more convenient.
+
+    3.4.3  Other Events
+        Events can be posted from other threads with the post_ui_msg()
+        function.  For example, when someone uses the kill cmd
+        the shell app posts MSG_QUIT to the specified queue.        .
+
+    3.4.4   Redraw Thread
+        Clients register a callback function that draws something
+        in their window.
+        The redraw thread runs continually, calling each redraw thread
+        in turn.
+
+3.5 Life & Breakout Demo Apps
+    Both work similarly in that they have one thread which works
+    out WHAT to display (e.g. breakout figures out where to move the ball
+    and if there was a collision) (call this the "app thread")
+    and rely on the UI Manager's redraw thread
+    to do the actual drawing, via a callback function registered with it. 
+    A condition lock is used to signal to the app thread each time a window 
+    has been drawn.
+
+    When a Breakout or Life app is started, it must allocate its stack
+    and "app locals" from the heap.  This is necessary because more than one
+    instance of each can be started
+    (We only allow one instance of the "stats" and "shell" apps so we can
+    simply allocate their stack and locals as statics).
+
+    The app locals are contained in a struct that is registered as
+    the thread local storage.  To access the locals, the app threads have
+    to derefence this struct.  There is a macro provided to do this.
+    
+    This is where it gets awkward...
+    
+    The UI manager draws the Breakout and Life windows in *ITS OWN THREAD*.
+    So, we can't access the app locals from the redraw thread 
+    in the same way as we do in the app threads.  
+    Instead we register a pointer to the app locals struct with the 
+    ui manager.  The redraw thread passes this pointer each
+    time it calls the redraw callback.
+    
+    Horribly complicated, i know... (see 5.4)
+
+
+-------------------------------------------------  
+
+  
+4.  Debugging with GDB and VisualBoyAdvance
+
+    VisualBoyAdvance can be used with GDB to debug GBA programs.
+    (GDB has to be built for ARM, obviously)
+    
+    How to debug JaysOS:
+    
+    (1) Open a shell, and run
+            VisualBoyAdvance -Gtcp jaysos.gba
+        The emulator will start up and wait for a connection from GDB
+    
+    (2) Run GDB on the ELF version of jaysos. 
+        This has all the debugging symbols compiled in.
+            gdb jaysos.elf
+
+    
+    (3) Tell GDB to connect to VisualBoyAdvance
+            target remote localhost:55555
+        
+        (note that if you create a .gdbinit file containing
+        this command it will be run automatically at startup)
+        
+    (4) You can now set breakpoints and use gdb as normal.
+    
+    For more information see the GDB docs and the VisualBoyAdvance FAQ 
+
+-------------------------------------------------  
+
+5.  FAQ
+
+Send your questions, bug reports, and suggestions to ja@badpint.org !
+
+5.1 How do i build it?
+
+     JaysOS is pretty self contained and doesn't require any other libraries.
+     You need to have gcc and binutils installed, obviously. JaysOS now
+     works with gcc 3.1 and all levels of -O.  (JaysOS 0.1 had a stupid bug
+     that only showed up if you compiled with optimisation turned on).
+     You should only need to tweak the Makefile to point at your installation
+     of gcc and as.
+     
+5.2 Why is it so slow?
+
+    This is a lot to do with the fact i'm using mode 3 for
+    display. Mode 3 provides an easy to use 16-bit bitmapped
+    display. However, its pretty slow, and thats why most games 
+    only use mode 3 for title screens.
+    
+    Also, I have made no attempt to optimise anything
+    for speed!
+
+
+5.3 The collision detection in Breakout is seriously dodgy
+
+    Yes, i know.
+
+
+5.4 Why does each app have one thread to "work out what to draw"
+and rely on the redraw thread to "do the actual drawing"??
+Why not just do the actual drawing from the app thread???
+
+    Well you can do this, but it will flicker horribly 
+    because each app will  be drawing on the screen whenever 
+    it feels like.
+    The solution is to have a seperate thread that does
+    the drawing on behalf of all the apps.
+    
+    Now this does complicate things, especially access
+    to the "app locals".
+    
+    A clean alternative is to create an offscreen buffer
+    that you can draw straight into from the app thread, 
+    and then use copy_window() to blit this to the screen 
+    in the redraw thread.  
+    Of course this requires extra memory for the buffer 
+    and cpu cycles to do the copy.
+
+    This is what we do for Waba.  
+    Waba can also be configured to draw direct to the screen
+    by undefining JAYSOS_DOUBLE_BUFFER in waba/config.h.
+    It does flicker a bit but it is a lot faster
+
+
+-------------------------------------------------    
+
+6.  WABA
+    see waba/README.jaysos
+
+------------------------------------------------- 
+
+THANKS
+Pints are due to the following:
+
+Jeff Frohwein for running www.devrs.com, inventing
+the MBV2 cable, maintaining the FAQs, etc...
+
+Forgotten for the VisualBoyAdvance emulator.
+
+Adrian O'Grady for the "zx" font.
+His uart code was very useful too.
+
+Damian Yerrick for GBFS.
+
+Tom Happ for writing the CowBite Spec
+
+All the people who figured out how the GBA works
+and then wrote it down!
+
+Rick Wild for writing Waba, and everyone who
+hacked on it since.
+  
+-------------------------------------------------
+
+Licence for code written by me:
+
+    Copyright (c) Justin Armstrong 2002. All Rights Reserved.
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Other fragments/header files etc may be owned by
+other people and under different licences,
+
+
+Waba is covered by the GPL. Because of the viral nature of the GPL  
+this project, when linked together into a binary, is covered by the GPL. 
+(see waba/COPYING).
+
+However, source code written by me remains under the above licence, 
+so you are still free to use it under those terms.
+  
+(i.e. if you take waba out, you can incorporate the rest into
+a closed source product).
+
+

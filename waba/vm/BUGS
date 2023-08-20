@@ -1,0 +1,22 @@
+* file opened with new File(name, File.DONT_OPEN):
+  cannot do getLength() on
+
+* String concatenation may fail
+        for(int i=0; i<n; ++i) {
+          String s1, s2, s3;
+          s1 = "*************************";
+	  s2 = "-------------------------";
+          s3 = s1+s2;
+	}
+  fails after for n>5
+
+* Error with empty arrays of String (possibly arrays of anything),
+  when passed by startApplication. Passed from java method is ok.
+
+* In application mode, one can specify a class to run, and pass it
+  arguments from the shell command line. If no argument is given, the
+  VM thinks one empty arg is passed (with one or more args, it is
+  okay). This is a problem with empty arrays of String.
+
+* Passing an argument of more than 40 for the main class name
+  cause waba to not find it.

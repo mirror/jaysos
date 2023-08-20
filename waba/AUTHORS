@@ -1,0 +1,33 @@
+Authors of Waba @ http://waba.sourceforge.net/ :
+
+Rick Wild.
+    Author of the 1st waba VM at http://www.wabasoft.com/.
+    The real father of the Waba VM.
+
+Olivier Bornet.
+    Responsible of the Linux port.
+    GTK port on Linux.     (http://gtk.org/)
+    PicoGUI port on Linux. (http://picogui.org/)
+    Admin of http://waba.sourceforge.net/ project
+
+Pascal Bauermeister
+    Class loader for Linux.
+
+Chirag Kantharia
+    Implementation of class waba/io/Socket on Linux
+    Modified class loader to load classes from JAR file on Linux
+
+Isao Yamashita
+    Implementation of the multi-thread classes
+    Support of the color
+
+Christian Grigis
+    Implementation of class waba.io.Registry for standard Linux and PocketBee.
+    Implementation of a native version of the ui.Edit class for Linux.
+
+Masaki Muranaka
+    Subset JTRON port on TOPPERS/JSP (http://www.itron.gr.jp/SPEC/jtron2-e.html, http://www.ertl.jp/TOPPERS/)
+	Currently I386-PC. Hitach SuperH also will be soon.
+
+Justin Armstrong
+	JaysOS/Gameboy Advance port
